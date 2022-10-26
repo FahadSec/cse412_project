@@ -12,23 +12,14 @@ headers  = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:105.
 undergrad_req = req.get(undergrad_url, headers=headers, cookies=cookies)
 grad_req = req.get(grad_url, headers=headers, cookies=cookies)
 
-
 obj = undergrad_req.json()
 grad_obj = grad_req.json()
 
 obj.extend(grad_obj) # combine both undergrad and grad objects
 
-# print statements for debugging purposes #TODO delete
-#print(r.content[:100])
-#print(r)
-#print(r.content)
-#print(json.dumps(obj['classes'][0], indent=2))
-#print(json.dumps(obj[0], indent=2))
-#print(json.dumps(obj, indent=2))
 
 f = open("statements.db", "w")
 for a in obj:
-
     sub = a['SUBJECT']
     cnum = a['CATALOGNBR']
     title = a['COURSETITLELONG']
