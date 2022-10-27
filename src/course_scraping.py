@@ -30,27 +30,25 @@ grad_obj = grad_req.json()
 obj.extend(grad_obj) # combine both undergrad and grad objects
 
 
-f = open("statements.db", "w")
-for a in obj:
-    sub = a['SUBJECT']
-    cnum = a['CATALOGNBR']
-    title = a['COURSETITLELONG']
-    credit = 0
-    if 'UNITSMAXIMUM' in a.keys():
-        credit = a['UNITSMAXIMUM']
-    gen_str = a['DESCR4']
-    desc = a['DESCRLONG']  
+with open("statements.db", "w") as f:
+    for a in obj:
+        sub = a['SUBJECT']
+        cnum = a['CATALOGNBR']
+        title = a['COURSETITLELONG']
+        credit = 0
+        if 'UNITSMAXIMUM' in a.keys():
+            credit = a['UNITSMAXIMUM']
+        gen_str = a['DESCR4']
+        desc = a['DESCRLONG']
 
-    gen_arr = []
-    gen_str = gen_str.replace(" or ", " & ")
-    splt = gen_str.split(' & ')
-    for str in splt:
-        if len(str) > 0:
-            gen_arr.append("'"+str+"'")
-    
-    gen_studies = "'{" + ','.join(gen_arr) + "}'"
+        gen_arr = []
+        gen_str = gen_str.replace(" or ", " & ")
+        splt = gen_str.split(' & ')
+        for str in splt:
+            if len(str) > 0:
+                gen_arr.append("'"+str+"'")
 
-    statement = f"INSERT INTO Course (subject, course_number, title, credits, General_Studies, description) VALUES ('{sub}', {cnum}, '{title}', {credit}, {gen_studies}, '{desc}');\n"
-    f.write(statement)
+        gen_studies = "'{" + ','.join(gen_arr) + "}'"
 
-f.close()
+        statement = f"INSERT INTO Course (subject, course_number, title, credits, General_Studies, description) VALUES ('{sub}', {cnum}, '{title}', {credit}, {gen_studies}, '{desc}');\n"
+        f.write(statement)
