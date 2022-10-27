@@ -6,7 +6,19 @@ grad_url = "https://eadvs-cscc-catalog-api.apps.asu.edu:443/catalog-microservice
 
 
 cookies = {"asuCookieConsent": "true"}
-headers  = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:105.0) Gecko/20100101 Firefox/105.0", "Accept": "*/*", "Accept-Language": "en-US,en;q=0.5", "Accept-Encoding": "gzip, deflate", "Referer": "https://catalog.apps.asu.edu/", "Authorization": "Bearer null", "Origin": "https://catalog.apps.asu.edu", "Sec-Fetch-Dest": "empty", "Sec-Fetch-Mode": "cors", "Sec-Fetch-Site": "same-site", "Te": "trailers"}
+headers  = {
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:105.0) Gecko/20100101 Firefox/105.0",
+    "Accept": "*/*",
+    "Accept-Language": "en-US,en;q=0.5",
+    "Accept-Encoding": "gzip, deflate",
+    "Referer": "https://catalog.apps.asu.edu/",
+    "Authorization": "Bearer null",
+    "Origin": "https://catalog.apps.asu.edu",
+    "Sec-Fetch-Dest": "empty",
+    "Sec-Fetch-Mode": "cors",
+    "Sec-Fetch-Site": "same-site",
+    "Te": "trailers",
+}
 
 
 undergrad_req = req.get(undergrad_url, headers=headers, cookies=cookies)
