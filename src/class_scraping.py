@@ -23,19 +23,29 @@ scrollId=""
 url = f"https://eadvs-cscc-catalog-api.apps.asu.edu:443/catalog-microservices/api/v1/search/classes?&refine=N&campusOrOnlineSelection=A&honors=F&promod=F&searchType=all&term={semc}&scrollId={scrollId}"
 
 cookies = {"asuCookieConsent": "true"}
-headers  = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:105.0) Gecko/20100101 Firefox/105.0", "Accept": "*/*", "Accept-Language": "en-US,en;q=0.5", "Accept-Encoding": "gzip, deflate", "Referer": "https://catalog.apps.asu.edu/", "Authorization": "Bearer null", "Origin": "https://catalog.apps.asu.edu", "Sec-Fetch-Dest": "empty", "Sec-Fetch-Mode": "cors", "Sec-Fetch-Site": "same-site", "Te": "trailers"}
+headers = {
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:105.0) Gecko/20100101 Firefox/105.0",
+    "Accept": "*/*",
+    "Accept-Language": "en-US,en;q=0.5",
+    "Accept-Encoding": "gzip, deflate",
+    "Referer": "https://catalog.apps.asu.edu/",
+    "Authorization": "Bearer null",
+    "Origin": "https://catalog.apps.asu.edu",
+    "Sec-Fetch-Dest": "empty",
+    "Sec-Fetch-Mode": "cors",
+    "Sec-Fetch-Site": "same-site",
+    "Te": "trailers",
+}
 
 r = req.get(url, headers=headers, cookies=cookies)
 obj = r.json()
 scrollId = obj["_scroll_id"]
 
-f = open("class_statements.db", "w")
-while len(r.text) > 0:
+with open("class_statements.db", "w") as f:
+    while len(r.text) > 0:
 
-    addStatements(obj, f)
+        addStatements(obj, f)
 
-    url = f"https://eadvs-cscc-catalog-api.apps.asu.edu:443/catalog-microservices/api/v1/search/classes?&refine=N&campusOrOnlineSelection=A&honors=F&promod=F&searchType=all&term={semc}&scrollId={scrollId}"
-    r = req.get(url, headers=headers, cookies=cookies)
-    obj = r.json()
-
-f.close()
+        url = f"https://eadvs-cscc-catalog-api.apps.asu.edu:443/catalog-microservices/api/v1/search/classes?&refine=N&campusOrOnlineSelection=A&honors=F&promod=F&searchType=all&term={semc}&scrollId={scrollId}"
+        r = req.get(url, headers=headers, cookies=cookies)
+        obj = r.json()
