@@ -42,10 +42,10 @@ obj = r.json()
 scrollId = obj["_scroll_id"]
 
 with open("class_statements.db", "w") as f:
-    while len(r.text) > 0:
-
+    while len(r.text) > 600:
+        #print(obj["hits"]["hits"][0]["_source"]["SUBJECT"])
+        obj = r.json()
         addStatements(obj, f)
 
         url = f"https://eadvs-cscc-catalog-api.apps.asu.edu:443/catalog-microservices/api/v1/search/classes?&refine=N&campusOrOnlineSelection=A&honors=F&promod=F&searchType=all&term={semc}&scrollId={scrollId}"
         r = req.get(url, headers=headers, cookies=cookies)
-        obj = r.json()
