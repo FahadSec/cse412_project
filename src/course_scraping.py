@@ -1,8 +1,8 @@
 import requests as req
 import json
 
-undergrad_url = "https://eadvs-cscc-catalog-api.apps.asu.edu:443/catalog-microservices/api/v1/search/courses?&refine=Y&campusOrOnlineSelection=A&searchType=all&term=2227&level=undergrad"
-grad_url = "https://eadvs-cscc-catalog-api.apps.asu.edu:443/catalog-microservices/api/v1/search/courses?&refine=Y&campusOrOnlineSelection=A&searchType=all&term=2227&level=grad"
+undergrad_url = "https://eadvs-cscc-catalog-api.apps.asu.edu:443/catalog-microservices/api/v1/search/courses?refine=Y&campusOrOnlineSelection=A&searchType=all&term=2227&level=undergrad"
+grad_url = "https://eadvs-cscc-catalog-api.apps.asu.edu:443/catalog-microservices/api/v1/search/courses?refine=Y&campusOrOnlineSelection=A&searchType=all&term=2227&level=grad"
 
 
 cookies = {"asuCookieConsent": "true"}
@@ -39,7 +39,7 @@ with open("statements.db", "w") as f:
         if 'UNITSMAXIMUM' in a.keys():
             credit = a['UNITSMAXIMUM']
         gen_str = a['DESCR4']
-        desc = a['DESCRLONG']
+        desc = a['DESCRLONG'].replace("'","''")
 
         gen_arr = []
         gen_str = gen_str.replace(" or ", " & ")
@@ -51,4 +51,4 @@ with open("statements.db", "w") as f:
         gen_studies = "'{" + ','.join(gen_arr) + "}'"
 
         statement = f"INSERT INTO Course (subject, course_number, title, credits, General_Studies, description) VALUES ('{sub}', {cnum}, '{title}', {credit}, {gen_studies}, '{desc}');\n"
-        f.write(statement)
+    f.write(statement)
