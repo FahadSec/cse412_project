@@ -51,4 +51,4 @@ with open("statements.db", "w") as f:
         gen_studies = "'{" + ','.join(gen_arr) + "}'"
 
         statement = f"INSERT INTO Course (subject, course_number, title, credits, General_Studies, description) VALUES ('{sub}', {cnum}, '{title}', {credit}, {gen_studies}, '{desc}');\n"
-    f.write(statement)
+        f.write(statement)
