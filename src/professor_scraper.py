@@ -1,5 +1,4 @@
 import requests as req
-import json
 
 class_numbers = []
 
@@ -41,20 +40,15 @@ obj = r.json()
 params["scrollId"] = obj["scrollId"]
 
 
-
-
 # 1. GET CLASS NUMBERS
-
 print ("Getting class numbers...")
 
-#for _ in range(10): ############### TODO RETURN BACK TO NORMAL
 while len(r.text) > 600:
     obj = r.json()
     addClassNumber(obj)
 
     url = "https://eadvs-cscc-catalog-api.apps.asu.edu:443/catalog-microservices/api/v1/search/classes"
     r = req.get(url, headers=headers, cookies=cookies, params=params)
-
 
 
 
@@ -74,7 +68,6 @@ for class_number in class_numbers:
         professors.append((obj["meetings"][0]["instructors"][0]["firstName"] + " " + obj["meetings"][0]["instructors"][0]["lastName"],
                            obj["meetings"][0]["instructors"][0]["iSearchUrl"].split("/")[-1], 
                            class_number))
-
 
 
 
@@ -121,9 +114,5 @@ with open("professor_statements.sql", "w") as f:
                 statement_teaches = f"INSERT INTO Teaches (professor_id, section_number) VALUES ('{professor[1]}', {professor[2]});\n"
 
                 f.write(statement_prof + statement_teaches)
-
-
-
-
 
                 break
