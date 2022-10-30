@@ -3,27 +3,27 @@ import json
 
 def addStatements(obj, f):
     for a in obj["classes"]:
-        clas = a['CLAS']
-        snum = clas['CLASSNBR']
-        sub = clas['SUBJECT']
+        clas = a["CLAS"]
+        snum = clas["CLASSNBR"]
+        sub = clas["SUBJECT"]
 
-        cnum = clas['CATALOGNBR']
+        cnum = clas["CATALOGNBR"]
         number_ext = ""
         if len(cnum) > 3:
             temp = cnum
             cnum = temp[:3]
             number_ext = temp[3:]
 
-        loctn = json.loads(clas['LOCATIONBUILDING'])
-        loc = loctn[0]['NAME']
-        ses = clas['SESSIONCODE']
-        seats = int(clas['ENRLCAP']) - int(clas['ENRLTOT'])
+        loctn = json.loads(clas["LOCATIONBUILDING"])
+        loc = loctn[0]["NAME"]
+        ses = clas["SESSIONCODE"]
+        seats = int(clas["ENRLCAP"]) - int(clas["ENRLTOT"])
         statement_section = f"INSERT INTO Section (section_number, location, semester, session, open_seats) VALUES ({snum}, '{loc}', '{semester}', '{ses}', {seats});\n"
         statement_scheduled = f"INSERT INTO Scheduled (subject, course_number, number_ext, section_number) VALUES ('{sub}', {cnum}, '{number_ext}', {snum});\n"
         f.write(statement_section + statement_scheduled)
 
 
-semester = 'Fall 2022'
+semester = "Fall 2022"
 
 url = "https://eadvs-cscc-catalog-api.apps.asu.edu:443/catalog-microservices/api/v1/search/classes"
 

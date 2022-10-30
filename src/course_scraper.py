@@ -37,20 +37,20 @@ obj.extend(grad_obj) # combine both undergrad and grad objects
 
 with open("course_statements.sql", "w") as f:
     for a in obj:
-        sub = a['SUBJECT']
-        cnum = a['CATALOGNBR']
+        sub = a["SUBJECT"]
+        cnum = a["CATALOGNBR"]
         number_ext = ""
         if len(cnum) > 3:
             temp = cnum
             cnum = temp[:3]
             number_ext = temp[3:]
 
-        title = a['COURSETITLELONG'].replace("'","''")
+        title = a["COURSETITLELONG"].replace("'","''")
         credit = 0
-        if 'UNITSMAXIMUM' in a.keys():
-            credit = a['UNITSMAXIMUM']
-        gen_studies = a['DESCR4']
-        desc = a['DESCRLONG'].replace("'","''")
+        if "UNITSMAXIMUM" in a.keys():
+            credit = a["UNITSMAXIMUM"]
+        gen_studies = a["DESCR4"]
+        desc = a["DESCRLONG"].replace("'","''")
 
         statement = f"INSERT INTO Course (subject, course_number, number_ext, title, credits, General_Studies, description) VALUES ('{sub}', {cnum}, '{number_ext}', '{title}', {credit}, '{gen_studies}', '{desc}');\n"
         f.write(statement)
