@@ -1,1 +1,6 @@
 # cse412_project
+
+To install requirements
+```
+pip install -r requirements.txt
+```
