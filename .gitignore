@@ -1,0 +1,6 @@
+# Compiled bytecode
+__pycache__/
+
+# Flask stuff:
+instance/
+.webassets-cache
