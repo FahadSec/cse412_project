@@ -8,7 +8,7 @@ from flask import Flask
 import models
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres@localhost/cse412_dev"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///cse412_dev"
 db = SQLAlchemy(app)
 
 @app.route("/")
