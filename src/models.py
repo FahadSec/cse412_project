@@ -10,7 +10,7 @@ class Server (db.Model):
         self.link = link
         self.member_count = member_count
 
-class course (db.Model):
+class Course (db.Model):
     __tablename__ = "course"
     subject = db.Column(db.CHAR(3), primary_key=True)
     course_number = db.Column(db.SmallInteger, primary_key=True)
@@ -29,7 +29,7 @@ class course (db.Model):
         self.general_studies = general_studies
         self.description = description
 
-class section (db.Model):
+class Section (db.Model):
     __tablename__ = "section"
     section_number = db.Column(db.Integer, primary_key=True)
     location = db.Column(db.String(25))
@@ -44,7 +44,7 @@ class section (db.Model):
         self.session = session
         self.open_seats = open_seats
 
-class discord_for (db.Model):
+class Discord_for (db.Model):
     __tablename__ = "discord_for"
     server_id = db.Column(db.Integer, db.ForeignKey("Server.server_id"), primary_key=True)
     section_number = db.Column(db.Integer, db.ForeignKey("Section.section_number"), primary_key=True)
@@ -53,7 +53,7 @@ class discord_for (db.Model):
         self.server_id = server_id
         self.section_number = section_number
 
-class professor (db.Model):
+class Professor (db.Model):
     __tablename__ = "professor"
     professor_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
@@ -70,7 +70,7 @@ class professor (db.Model):
         self.bio = bio
         self.website = website
 
-class student (db.Model):
+class Student (db.Model):
     __tablename__ = "student"
     student_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
@@ -83,7 +83,7 @@ class student (db.Model):
         self.discord_id = discord_id
 
     
-class enrolled (db.Model):
+class Enrolled (db.Model):
     __tablename__ = "enrolled"
     student_id = db.Column(db.Integer, db.ForeignKey("Student.student_id"), primary_key=True)
     section_number = db.Column(db.Integer, db.ForeignKey("Section.section_number"), primary_key=True)
@@ -92,7 +92,7 @@ class enrolled (db.Model):
         self.student_id = student_id
         self.section_number = section_number
 
-class joined (db.Model):
+class Joined (db.Model):
     __tablename__ = "joined"
     student_id = db.Column(db.Integer, db.ForeignKey("Student.student_id"), primary_key=True)
     server_id = db.Column(db.Integer, db.ForeignKey("Server.server_id"), primary_key=True)
@@ -102,7 +102,7 @@ class joined (db.Model):
         self.student_id = student_id
         self.server_id = server_id
 
-class scheduled (db.Model):
+class Scheduled (db.Model):
     __tablename__ = "scheduled"
     subject = db.Column(db.CHAR(3), db.ForeignKey("Course.subject"), nullable=False)
     course_number = db.Column(db.SmallInteger, db.ForeignKey("Course.course_number"), nullable=False)
@@ -115,7 +115,7 @@ class scheduled (db.Model):
         self.number_ext = number_ext
         self.section_number = section_number
 
-class teaches (db.Model):
+class Teaches (db.Model):
     __tablename__ = "teaches"
     professor_id = db.Column(db.Integer, db.ForeignKey("Professor.professor_id"), nullable=False)
     section_number = db.Column(db.Integer, db.ForeignKey("Section.section_number"), primary_key=True)
