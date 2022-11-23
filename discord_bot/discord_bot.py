@@ -4,7 +4,6 @@ key = 'MTA0MjUyMDg1MDI2MTM0ODQxMg.GlAvcC.4wGbuOhmyrLhBq8_MyLfeqY106jw_NgNO3fcTQ'
 
 client = discord.Client()
 
-
 async def setup_server(message):
     guild = message.guild
 
@@ -119,7 +118,7 @@ async def setup_server(message):
     for i in range(len(section_role_names)):
         await role_msg.add_reaction(section_role_emotes[i])
     await role_msg.pin()
-
+   
     #add default rules channel message
 
     
@@ -138,9 +137,79 @@ async def on_message(message):
          print(message.content)
 
 #TODO maybe automatically apply some roles? upon joining if needed?
-#TODO reaction roles
 #TODO when roles added to someone, record in database
 
+#reaction roles
+@client.event 
+async def on_raw_reaction_add(arg):
+    guild = await client.fetch_guild(arg.guild_id)
+    channels = await guild.fetch_channels()
+    channel = None
+    section_role_emotes = ('0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣')
+    emoji = -1
+    for i,r in enumerate(section_role_emotes): 
+        if str(arg.emoji) == r: emoji = i
+    if emoji == -1: return
+    for c in channels:
+        if c.id == arg.channel_id:
+            channel = c 
+            break 
+    if channel is None: return 
+    if channel.name != 'roles': return
+    msg = await channel.fetch_message(arg.message_id)
+    cont = msg.content
+    if not cont.startswith('0️⃣'): return 
+    role_names = []
+    while True:
+        ind = cont.find('\n')
+        if (ind == -1): role_names.append(cont[7:])
+        else: role_names.append(cont[7:ind])
+        cont = cont[ind+1:]
+        if cont[0] != '\n': break
+        cont = cont[1:]
+    role_name = role_names[emoji]
+
+    member = await guild.fetch_member(arg.user_id)
+
+    roles = await guild.fetch_roles()
+    for r in roles:
+        if r.name == role_name:
+           await member.add_roles(r)
+@client.event 
+async def on_raw_reaction_remove(arg):
+    guild = await client.fetch_guild(arg.guild_id)
+    channels = await guild.fetch_channels()
+    channel = None
+    section_role_emotes = ('0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣')
+    emoji = -1
+    for i,r in enumerate(section_role_emotes): 
+        if str(arg.emoji) == r: emoji = i
+    if emoji == -1: return
+    for c in channels:
+        if c.id == arg.channel_id:
+            channel = c 
+            break 
+    if channel is None: return 
+    if channel.name != 'roles': return
+    msg = await channel.fetch_message(arg.message_id)
+    cont = msg.content
+    if not cont.startswith('0️⃣'): return 
+    role_names = []
+    while True:
+        ind = cont.find('\n')
+        if (ind == -1): role_names.append(cont[7:])
+        else: role_names.append(cont[7:ind])
+        cont = cont[ind+1:]
+        if cont[0] != '\n': break
+        cont = cont[1:]
+    role_name = role_names[emoji]
+
+    member = await guild.fetch_member(arg.user_id)
+
+    roles = await guild.fetch_roles()
+    for r in roles:
+        if r.name == role_name:
+           await member.remove_roles(r)
 
 
 client.run(key)
