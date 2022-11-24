@@ -9,7 +9,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///cse412_dev"
 db = SQLAlchemy(app)
 
 def search(subject, number, ext):
-    results = db.session.execute(f"""
+    results = db.session.execute("""
         SELECT Course.subject, Course.course_number, Course.number_ext, Course.title, Professor.name, Server.link
         FROM Section
         LEFT JOIN Discord_for on Discord_for.section_number = Section.section_number 
@@ -20,8 +20,8 @@ def search(subject, number, ext):
         INNER JOIN Course on (Course.subject = Scheduled.subject 
             AND Course.course_number=Scheduled.course_number 
             AND Course.number_ext=Scheduled.number_ext)
-        WHERE Course.subject = :subject AND Course.course_number = :number AND Course.number_ext = :ext;
-    """, {
+        WHERE Course.subject = :subject AND Course.course_number = :number AND Course.number_ext = :ext;""", 
+        {
         "subject" : subject,
         "number" : number,
         "ext" : ext
