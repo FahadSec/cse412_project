@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
-
-# This is a temprary HelloWorld Flask app to test db/flask connection
-
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask
+from flask import Flask, render_template#, url_for
 
 import models
 
@@ -32,14 +29,17 @@ def search(subject, number, ext):
     return results
 
 @app.route("/")
-def hello_world():
+def index() -> str:
     results = search("CSE", 412, "")
+
     for r in results:
         print(r)
+        
+    return render_template('index.html')
 
-    return "<p>Hello, World!</p>"
+def main() -> None:
+    db.init_app(app)
+    app.run(debug=True, host='localhost', port=5000)
 
 if __name__ == "__main__":
-    db.init_app(app)
-    app.run()
-
+    main()
