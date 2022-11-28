@@ -48,7 +48,7 @@ class Section(db.Model):
         self.open_seats = open_seats
 
 
-class Discord_for(db.Model):
+class DiscordFor(db.Model):
     __tablename__ = "discord_for"
     server_id = db.Column(db.Integer, db.ForeignKey("Server.server_id"), primary_key=True)
     section_number = db.Column(db.Integer, db.ForeignKey("Section.section_number"), primary_key=True)
