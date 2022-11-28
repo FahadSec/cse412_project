@@ -8,9 +8,30 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///cse412_dev"
 db = SQLAlchemy(app)
 
+def insert_server(section_number, server_link):
+    r0 = db.session.execute("""
+    SELECT link FROM Server WHERE link=:link;
+    """, {"link":server_link})
+    if r0 is None:
+        r1 = db.session.execute("""
+        INSERT INTO Server (link) VALUES (:link) ;
+        """, { "link":server_link})
+    try:
+        results = db.session.execute("""
+        INSERT INTO Discord_For (server_id, section_number) VALUES 
+        ((SELECT server_id FROM Server WHERE link=:link), :section); 
+        """, 
+        {"section":section_number,
+        "link":server_link
+        })
+    except:
+        db.session.commit()
+        return None
+    db.session.commit()
+    return results
 def search(subject, number, ext):
     results = db.session.execute("""
-        SELECT Course.subject, Course.course_number, Course.number_ext, Course.title, Professor.name, Server.link
+        SELECT Course.subject, Course.course_number, Course.number_ext, Course.title, Professor.name, Server.link, Section.section_number
         FROM Section
         LEFT JOIN Discord_for on Discord_for.section_number = Section.section_number 
         LEFT JOIN Server on Server.server_id = Discord_for.server_id
@@ -30,11 +51,18 @@ def search(subject, number, ext):
 
 @app.route("/")
 def index() -> str:
-    results = search("CSE", 412, "")
+    r1 = insert_server(78141, "testlink")
+    results = search("CSE", 355, "")
 
     for r in results:
         print(r)
-        
+
+    results = db.session.execute("""SELECT * FROM Server;""")
+    for r in results:
+        print(r)
+    
+    
+
     return render_template('index.html')
 
 def main() -> None:

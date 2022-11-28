@@ -1,8 +1,16 @@
 import discord
 import time
+from sqlalchemy import create_engine, text
+
+
+engine = create_engine("postgresql:///cse412_dev", echo=True, future=True)
+
 key = 'MTA0MjUyMDg1MDI2MTM0ODQxMg.GlAvcC.4wGbuOhmyrLhBq8_MyLfeqY106jw_NgNO3fcTQ'
 
-client = discord.Client()
+intents = discord.Intents.default()
+intents.members = True
+intents.message_content = True
+client = discord.Client(intents=intents)
 
 async def setup_server(message):
     guild = message.guild
@@ -131,10 +139,22 @@ async def on_ready():
 
 @client.event 
 async def on_message(message):
-    if message.author != client.user and message.content.startswith('setup'):
-        await setup_server(message)
-    elif message.author != client.user:
+    if message.author != client.user:
+        if message.content.startswith('setup'):
+            await setup_server(message)
+        elif message.content == 'sqltest':
+            with engine.connect() as conn:
+                results = conn.execute(text("""
+                SELECT * FROM Server;
+                """))
+                conn.commit()
+                for r in results:
+                    await message.channel.send(str(r))
+                    print(r)
+            print('sql')
+        else:
          print(message.content)
+        
 
 #TODO maybe automatically apply some roles? upon joining if needed?
 #TODO when roles added to someone, record in database
