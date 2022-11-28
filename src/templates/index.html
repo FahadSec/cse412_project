@@ -17,12 +17,13 @@
 			<th>Section Number</th>
 			<th>Professor Name</th>
 		</tr>
+        {% for row in rows %}
 		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
+            {% for r in row%}
+            <td>{{r}}</td>
+            {% endfor %}
 		</tr>
+        {% endfor %}
 	</table>
 </div>
 {% endblock %}

@@ -32,11 +32,20 @@ def search(subject, number, ext):
 @app.route("/")
 def index() -> str:
     results = search("CSE", 412, "")
+    return render_template('index.html', rows=results)
 
+"""
     for r in results:
         print(r)
 
-    return render_template('index.html')
+    #x = models.Server.query.all() 
+    x = db.session.execute(db.select(models.Server)).scalars()
+
+    print(results[0])
+    
+    for r in x:
+        print(r)
+"""
 
 
 def main() -> None:
