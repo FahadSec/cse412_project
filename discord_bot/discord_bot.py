@@ -13,8 +13,9 @@ intents.message_content = True
 client = discord.Client(intents=intents)
 
 async def setup_server(message):
+    split = message.split(' ')[1]
     guild = message.guild
-
+    discord_id = int(split[1])
 
     #static setup stuff
     #delete existing channels / restart server
@@ -76,6 +77,9 @@ async def setup_server(message):
 
     #non-static setup
     #get this discord and the sections its for
+    conn = await engine.connect()
+    
+
 
     #delete old roles for the sections
     section_role_names = ('Gennaro De Luca M/W 10:30-12:00', 'Jia Zou M/W 12:00-1:15')
