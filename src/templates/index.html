@@ -15,13 +15,26 @@
 			<th>Course Subject</th>
 			<th>Course Number</th>
 			<th>Section Number</th>
+			<th>Course Name</th>
 			<th>Professor Name</th>
+			<th>Server Link</th>
 		</tr>
         {% for row in rows %}
 		<tr>
-            {% for r in row%}
-            <td>{{r}}</td>
-            {% endfor %}
+			<td>{{row[0]}}</td>
+			{%if row[2] %}
+			<td>{{row[1]}}{{row[2]}}</td>
+			{%else%}
+			<td>{{row[1]}}</td>
+			{%endif%}
+			<td>{{row[3]}}</td>
+			<td>{{row[4]}}</td>
+			<td>{{row[5]}}</td>
+			{%if row[6] %}
+			<td>https://www.discord.gg/{{row[6]}}</td>
+			{%else%}
+			<td></td>
+			{%endif%}
 		</tr>
         {% endfor %}
 	</table>

@@ -9,8 +9,8 @@ db = SQLAlchemy(app)
 
 
 def search(subject, number, ext):
-    results = db.session.execute("""
-        SELECT Course.subject, Course.course_number, Course.number_ext, Course.title, Professor.name, Server.link
+    query = """
+    SELECT Course.subject, Course.course_number, Course.number_ext, Section.section_number, Course.title, Professor.name, Server.link
         FROM Section
         LEFT JOIN Discord_for on Discord_for.section_number = Section.section_number
         LEFT JOIN Server on Server.server_id = Discord_for.server_id
@@ -20,7 +20,16 @@ def search(subject, number, ext):
         INNER JOIN Course on (Course.subject = Scheduled.subject
             AND Course.course_number=Scheduled.course_number
             AND Course.number_ext=Scheduled.number_ext)
-        WHERE Course.subject = :subject AND Course.course_number = :number AND Course.number_ext = :ext;""",
+        WHERE 
+    """
+    if subject:
+        query += ' Course.subject = :subject AND'
+    if number:
+        query += ' Course.course_number = :number AND'
+    if ext:
+        query += ' Course.number_ext = :ext AND'
+    query += ' TRUE;'
+    results = db.session.execute(query,
         {
         "subject" : subject,
         "number" : number,
@@ -31,7 +40,7 @@ def search(subject, number, ext):
 
 @app.route("/")
 def index() -> str:
-    results = search("CSE", 412, "")
+    results = search("ASU", 101, "")
     return render_template('index.html', rows=results)
 
 """
