@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask, render_template#, url_for
+from flask import Flask, render_template, url_for, request#, url_for
 import models
 
 app = Flask(__name__)
@@ -42,6 +42,25 @@ def search(subject, number, ext):
 def index() -> str:
     results = search("CSE", 412, "")
     return render_template('index.html', rows=results)
+
+@app.route("/",  methods =["GET", "POST"])
+def search_page():
+    if request.method == "POST":
+        subject = request.form.get("subject")
+        number = request.form.get("number")
+        ext = ''
+        if number!='':
+            if len(number) > 3:
+                ext = number[3:]
+                number = number[:3]
+        
+        print(subject,number,ext)
+        results = search(subject, number, ext)
+        if number is None: number = ''
+        if subject is None: subject = ''
+        if ext is None: ext = ''
+        return render_template("index.html", rows=results, subject=subject, number=number, ext=ext)
+    return render_template("index.html", rows=())
 
 """
     for r in results:
