@@ -40,7 +40,7 @@ def search(subject, number, ext):
 
 @app.route("/")
 def index() -> str:
-    results = search("ASU", 101, "")
+    results = search("CSE", 412, "")
     return render_template('index.html', rows=results)
 
 """

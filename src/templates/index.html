@@ -10,6 +10,16 @@
 {% block body %}
 <div class="content">
 	<h1>ASU Class Discord Server Search</h1>
+
+	<form>
+		<label for="subject">Subject: </label>
+		<input id="subject" name="subject" type="text">
+
+		<label for="number">Number: </label>
+		<input id="number" name="number" type="text">
+		<input type="button" value="Search">
+	</form>
+
 	<table>
 		<tr>
 			<th>Course Subject</th>
@@ -31,7 +41,7 @@
 			<td>{{row[4]}}</td>
 			<td>{{row[5]}}</td>
 			{%if row[6] %}
-			<td>https://www.discord.gg/{{row[6]}}</td>
+			<td><a href="https://www.discord.gg/{{row[6]}}"> Discord Server </a></td>
 			{%else%}
 			<td></td>
 			{%endif%}
