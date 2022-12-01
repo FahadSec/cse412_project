@@ -49,6 +49,7 @@ def search(subject=None, number=None, ext=None, term=None, session=None, min_cre
     """
     if subject:
         query += ' Course.subject = :subject AND'
+        subject = subject.upper()
     if number:
         query += ' Course.course_number = :number AND'
     if ext:
@@ -68,11 +69,10 @@ def search(subject=None, number=None, ext=None, term=None, session=None, min_cre
     if seats:
         query += ' Section.open_seats >= :seats AND'
 
-
     query += ' TRUE;'
     results = db.session.execute(query,
         {
-        "subject" : subject.upper(),
+        "subject" : subject,
         "number" : number,
         "ext" : ext,
         "term": term,
@@ -87,13 +87,17 @@ def search(subject=None, number=None, ext=None, term=None, session=None, min_cre
 
 @app.route("/modal", methods=["GET", "POST"])
 def modal():
-    subject = request.args.get('subject', None)
-    course_number  = request.args.get('course_number', None)
-    section_number = request.args.get('section_number', None)
-    a = request.args.getlist('section_')
-    print(a)
-    ext = request.args.get('ext', None)
-    return render_template("modal.html", subject=subject, course_number=course_number, section_number=section_number, ext=ext)
+    if request.method == "POST":
+        subject = request.args.get('subject', None)
+        course_number  = request.args.get('course_number', None)
+        section_number = request.args.get('section_number', None)
+        a = request.form.keys()
+        sections = []
+        for key in a:
+            sections.append(int(key.split('_')[1]))
+        print(sections)
+        ext = request.args.get('ext', None)
+        return render_template("modal.html", subject=subject, course_number=course_number, section_number=section_number, sections=sections, ext=ext)
 
 @app.route("/bot")
 def bot():
@@ -113,7 +117,8 @@ def submit():
         subject = request.args.get('subject', None)
         course_number  = request.args.get('course_number', None)
         ext = request.args.get('ext', None)
-
+        sections = request.args.getlist('sections')
+        print(sections)
         link = request.form.get('link')
         print("link----->", link)
 
@@ -121,8 +126,10 @@ def submit():
         db.session.add(new_server)
         db.session.commit()
 
-        server_for = models.DiscordFor(new_server.server_id, section_number)
-        db.session.add(server_for)
+        for section in sections:
+            print(section)
+            server_for = models.DiscordFor(new_server.server_id, section)
+            db.session.add(server_for)
         db.session.commit()
 
         results = search(subject, course_number, ext)

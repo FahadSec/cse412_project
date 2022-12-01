@@ -8,7 +8,7 @@
         <h5 class="modal-title" id="exampleModalLabel">Submit a Discord Server</h5>
       </div>
       <div class="modal-body">
-        <form action="{{ url_for('submit', section_number=section_number, subject=subject, course_number=course_number, ext=ext)}}" method="post">
+        <form action="{{ url_for('submit', section_number=section_number, sections=sections, subject=subject, course_number=course_number, ext=ext)}}" method="post">
           <div class="form-group">
             <label for="discord-link" class="col-form-label">Enter the server link (Please enter a permanent link):</label>
 		<input id="link" name="link" type="link" value="{{link}}">
