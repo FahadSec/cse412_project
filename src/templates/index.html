@@ -52,8 +52,8 @@
 			<td class="table_element"><a href="https://www.discord.gg/{{row[6]}}"> Discord Server </a></td>
 			{%else%}
             <td class="table_element">
-                <a href="{{url_for('modal', section_number=row[3], subject=row[0], course_number=row[1], ext=row[2])}}"class="btn btn-outline-success">Pop Up Modal</a>
-                <a href="{{ url_for('submit', section_number=row[3], subject=row[0], course_number=row[1], ext=row[2])}}">Add Server</a></td>
+                <a href="{{url_for('modal', section_number=row[3], subject=row[0], course_number=row[1], ext=row[2])}}">Add Server</a>
+            </td>
 			{%endif%}
 		</tr>
         {% endfor %}
