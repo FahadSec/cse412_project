@@ -29,13 +29,14 @@
 	</form>
 
 	<table>
+		<form action="{{url_for('modal')}}" method="post">
 		<tr>
 			<th class="table_element">Course Subject</th>
 			<th class="table_element">Course Number</th>
 			<th class="table_element">Section Number</th>
 			<th class="table_element">Course Name</th>
 			<th class="table_element">Professor Name</th>
-			<th class="table_element">Server Link</th>
+			<th class="table_element">Server Link <input type="submit" value="Add Server"></th>
 		</tr>
         {% for row in rows %}
 		<tr>
@@ -54,11 +55,12 @@
             <td class="table_element">
 				<input type="checkbox" id="checkbox_{{row[3]}}">
 				<label for="checkbox_{{row[3]}}">Add Server</label>
-                <a href="{{url_for('modal', section_number=row[3], subject=row[0], course_number=row[1], ext=row[2])}}"> Add Server</a>
+                <!-- <a href="{{url_for('modal', section_number=row[3], subject=row[0], course_number=row[1], ext=row[2])}}"> Add Server</a> -->
             </td>
 			{%endif%}
 		</tr>
         {% endfor %}
+		</form>
 	</table>
 </div>
 
