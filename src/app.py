@@ -93,6 +93,14 @@ def modal():
     ext = request.args.get('ext', None)
     return render_template("modal.html", subject=subject, course_number=course_number, section_number=section_number, ext=ext)
 
+@app.route("/bot")
+def bot():
+    subject = request.args.get('subject', None)
+    course_number  = request.args.get('course_number', None)
+    section_number = request.args.get('section_number', None)
+    ext = request.args.get('ext', None)
+    return render_template("bot.html", subject=subject, course_number=course_number, section_number=section_number, ext=ext)
+
 @app.route("/submit", methods=["GET", "POST"])
 def submit():
     print("INSIDE SUBMIT")
@@ -115,7 +123,9 @@ def submit():
         db.session.commit()
 
         results = search(subject, course_number, ext)
-        return render_template("index.html", rows=results, subject=subject, number=course_number, ext=ext)
+        #return render_template("index.html", rows=results, subject=subject, number=course_number, ext=ext)
+        #return render_template("index.html", rows=results, subject=subject, number=course_number, ext=ext)
+        return render_template("bot.html", subject=subject, course_number=course_number, section_number=section_number, ext=ext)
     print("not in post!!!!!!!")
     return None
 

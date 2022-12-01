@@ -1,0 +1,32 @@
+{% extends 'index.html'%}
+{% block bot %}
+
+<div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">YOOOOOOOOOO</h5>
+      </div>
+      <div class="modal-body">
+        <form action="{{ url_for('submit', section_number=section_number, subject=subject, course_number=course_number, ext=ext)}}" method="post">
+          <div class="form-group">
+            <label for="discord-link" class="col-form-label">BOT MODAL</label>
+          </div>
+      <div class="modal-footer">
+          <a href="{{ url_for('search_page', subject=subject, number=course_number, ext=ext)}}" class="btn btn-secondary">Close</a>
+      </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    $(document).ready(function(){
+        console.log("window is loaded")
+        $("#exampleModal").modal("show")
+    })
+</script>
+{% endblock %}
