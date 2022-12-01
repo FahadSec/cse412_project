@@ -172,9 +172,8 @@ async def setup_server(message):
     await role_msg.pin()
    
     #add default rules channel message
-
-    
-
+    rules_msg = await rules_channel.send("1. Don't spam 2.\nDon't be rude.\n3.No NSFW\n4.Don't mass ping.\n")
+    await rules_msg.pin()
     print('setup')
 
 @client.event 
