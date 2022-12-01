@@ -53,7 +53,8 @@
 			{%else%}
             <td class="table_element">
 				<input type="checkbox" id="checkbox_{{row[3]}}">
-                <a href="{{url_for('modal', section_number=row[3], subject=row[0], course_number=row[1], ext=row[2])}}">Add Server</a>
+				<label for="checkbox_{{row[3]}}">Add Server</label>
+                <a href="{{url_for('modal', section_number=row[3], subject=row[0], course_number=row[1], ext=row[2])}}"> Add Server</a>
             </td>
 			{%endif%}
 		</tr>
