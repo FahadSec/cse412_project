@@ -106,11 +106,11 @@ def submit():
         link = request.form.get('link')
         print("link----->", link)
 
-        new_server = models.Server(link)
+        new_server = models.Server(link.split("discord.gg/")[-1])
         db.session.add(new_server)
         db.session.commit()
 
-        server_for = models.DiscordFor(new_server.server_id, section_number) 
+        server_for = models.DiscordFor(new_server.server_id, section_number)
         db.session.add(server_for)
         db.session.commit()
 
