@@ -12,8 +12,6 @@ def insert_server(section_number, server_link):
     r0 = db.session.execute("""
     SELECT link FROM Server WHERE link=:link;
     """, {"link":server_link})
-    print("R0", r0)
-    print("is none?", (r0 is None))
     if r0 is None:
         r1 = db.session.execute("""
         INSERT INTO Server (link) VALUES (:link) ;
@@ -95,7 +93,6 @@ def modal():
         sections = []
         for key in a:
             sections.append(int(key.split('_')[1]))
-        print(sections)
         ext = request.args.get('ext', None)
         return render_template("modal.html", subject=subject, course_number=course_number, section_number=section_number, sections=sections, ext=ext)
 
@@ -110,43 +107,26 @@ def bot():
 
 @app.route("/submit", methods=["GET", "POST"])
 def submit():
-    print("INSIDE SUBMIT")
     if request.method == "POST":
-        print("inside post!!!!!!!")
         section_number = request.args.get('section_number', None)
         subject = request.args.get('subject', None)
         course_number  = request.args.get('course_number', None)
         ext = request.args.get('ext', None)
         sections = request.args.getlist('sections')
-        print(sections)
         link = request.form.get('link')
-        print("link----->", link)
 
         new_server = models.Server(link.split("discord.gg/")[-1])
         db.session.add(new_server)
         db.session.commit()
 
         for section in sections:
-            print(section)
             server_for = models.DiscordFor(new_server.server_id, section)
             db.session.add(server_for)
         db.session.commit()
 
         results = search(subject, course_number, ext)
-        #return render_template("index.html", rows=results, subject=subject, number=course_number, ext=ext)
-        #return render_template("index.html", rows=results, subject=subject, number=course_number, ext=ext)
         return render_template("bot.html", subject=subject, course_number=course_number, section_number=section_number, ext=ext, server_id=new_server.server_id)
-    print("not in post!!!!!!!")
     return None
-
-"""
-@app.route("/")
-def index() -> str:
-    #print("Hello World")
-    #r1 = insert_server(78141, "testlink")
-    # results = search("CSE", 355, "")
-    return render_template('index.html')
-"""
 
 @app.route("/",  methods =["GET", "POST"])
 def search_page():
@@ -159,7 +139,6 @@ def search_page():
                 ext = number[3:]
                 number = number[:3]
 
-        print(subject,number,ext)
         results = search(subject, number, ext)
         if number is None: number = ''
         if subject is None: subject = ''
