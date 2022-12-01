@@ -5,18 +5,18 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Submit a Discord Server</h5>
       </div>
       <div class="modal-body">
         <form>
           <div class="form-group">
-            <label for="discord-link" class="col-form-label">Enter discord link (Please enter a permanent link):</label>
-            <input type="text" class="form-control" id="discord-link">
+            <label for="discord-link" class="col-form-label">Enter the server link (Please enter a permanent link):</label>
+            <input type="text" class="form-control" id="discord-link", name="discord-link">
           </div>
         </form>
       </div>
       <div class="modal-footer">
-          <a href="{{ url_for('submit', section_number=section_number, link='AAAAA', subject=subject, course_number=course_number, ext=ext)}}" class="btn btn-primary" id="submit-btn">Submit</a>
+          <a href="{{ url_for('submit', section_number=section_number, subject=subject, course_number=course_number, ext=ext)}}" class="btn btn-primary" id="submit-btn">Submit</a>
           <a href="{{ url_for('search_page', subject=subject, number=number, ext=ext)}}" class="btn btn-secondary">Close</a>
       </div>
     </div>

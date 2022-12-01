@@ -72,10 +72,11 @@ def modal():
 @app.route("/submit")
 def submit():
     section_number = request.args.get('section_number', None)
-    link = request.args.get('link', None)
     subject = request.args.get('subject', None)
     course_number  = request.args.get('course_number', None)
     ext = request.args.get('ext', None)
+
+    link = request.form.get('discord-link', None)
 
     new_server = models.Server(link)
     db.session.add(new_server)
