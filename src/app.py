@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask, render_template, url_for, request, flash
+from flask import Flask, render_template, url_for, request
 import models
 
 app = Flask(__name__)
@@ -61,6 +61,9 @@ def search(subject, number, ext):
         })
     return results
 
+@app.route("/modal")
+def modal():
+    return render_template("modal.html")
 
 @app.route("/submit")
 def submit():
