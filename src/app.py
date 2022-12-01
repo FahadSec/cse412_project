@@ -28,6 +28,7 @@ def insert_server(section_number, server_link):
         return None
     db.session.commit()
     return results
+
 def search(subject, number, ext):
     query = """
     SELECT Course.subject, Course.course_number, Course.number_ext, Section.section_number, Course.title, Professor.name, Server.link
