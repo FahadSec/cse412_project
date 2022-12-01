@@ -63,7 +63,10 @@ def search(subject, number, ext):
 
 @app.route("/modal")
 def modal():
-    return render_template("modal.html")
+    subject = request.args.get('subject', None)
+    number  = request.args.get('number', None)
+    ext = request.args.get('ext', None)
+    return render_template("modal.html", subject=subject, number=number, ext=ext)
 
 @app.route("/submit")
 def submit():
