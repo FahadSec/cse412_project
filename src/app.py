@@ -7,7 +7,27 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///cse412_dev"
 db = SQLAlchemy(app)
 
-
+def insert_server(section_number, server_link):
+    r0 = db.session.execute("""
+    SELECT link FROM Server WHERE link=:link;
+    """, {"link":server_link})
+    if r0 is None:
+        r1 = db.session.execute("""
+        INSERT INTO Server (link) VALUES (:link) ;
+        """, { "link":server_link})
+    try:
+        results = db.session.execute("""
+        INSERT INTO Discord_For (server_id, section_number) VALUES
+        ((SELECT server_id FROM Server WHERE link=:link), :section);
+        """,
+        {"section":section_number,
+        "link":server_link
+        })
+    except:
+        db.session.commit()
+        return None
+    db.session.commit()
+    return results
 def search(subject, number, ext):
     query = """
     SELECT Course.subject, Course.course_number, Course.number_ext, Section.section_number, Course.title, Professor.name, Server.link
@@ -20,7 +40,7 @@ def search(subject, number, ext):
         INNER JOIN Course on (Course.subject = Scheduled.subject
             AND Course.course_number=Scheduled.course_number
             AND Course.number_ext=Scheduled.number_ext)
-        WHERE 
+        WHERE
     """
     if subject:
         query += ' Course.subject = :subject AND'
@@ -40,7 +60,8 @@ def search(subject, number, ext):
 
 @app.route("/")
 def index() -> str:
-    # results = search("CSE", 412, "")
+    r1 = insert_server(78141, "testlink")
+    # results = search("CSE", 355, "")
     return render_template('index.html')
 
 @app.route("/",  methods =["GET", "POST"])
@@ -53,7 +74,7 @@ def search_page():
             if len(number) > 3:
                 ext = number[3:]
                 number = number[:3]
-        
+
         print(subject,number,ext)
         results = search(subject, number, ext)
         if number is None: number = ''
@@ -66,11 +87,20 @@ def search_page():
     for r in results:
         print(r)
 
-    #x = models.Server.query.all() 
+    results = db.session.execute("""SELECT * FROM Server;""")
+    for r in results:
+        print(r)
+
+
+
+    return render_template('index.html')
+
+
+    #x = models.Server.query.all()
     x = db.session.execute(db.select(models.Server)).scalars()
 
     print(results[0])
-    
+
     for r in x:
         print(r)
 """
