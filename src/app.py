@@ -84,14 +84,14 @@ def submit():
     results = search(subject, course_number, ext)
     return render_template("index.html", rows=results, subject=subject, number=course_number, ext=ext)
 
+"""
 @app.route("/")
 def index() -> str:
-
-
     #print("Hello World")
     #r1 = insert_server(78141, "testlink")
     # results = search("CSE", 355, "")
     return render_template('index.html')
+"""
 
 @app.route("/",  methods =["GET", "POST"])
 def search_page():
@@ -110,13 +110,24 @@ def search_page():
         if subject is None: subject = ''
         if ext is None: ext = ''
         return render_template("index.html", rows=results, subject=subject, number=number, ext=ext)
-    return render_template("index.html", rows=())
+
+    subject = request.args.get('subject', None)
+    number  = request.args.get('number', None)
+    ext = request.args.get('ext', None)
+    if (subject is not None):
+        results = search(subject, number, ext)
+    else:
+        results = ()
+    if number is None: number = ''
+    if subject is None: subject = ''
+    if ext is None: ext = ''
+    #return render_template("index.html", rows=())
+    return render_template("index.html", rows=results, subject=subject, number=number, ext=ext)
 
 
 def main() -> None:
     db.init_app(app)
     app.run(debug=True, host='localhost', port=5000)
-
 
 if __name__ == "__main__":
     main()
