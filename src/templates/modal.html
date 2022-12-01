@@ -12,13 +12,12 @@
           <div class="form-group">
             <label for="discord-link" class="col-form-label">Enter the server link (Please enter a permanent link):</label>
 		<input id="link" name="link" type="link" value="{{link}}">
-		<input type="submit" value="BROOOOOOOO">
           </div>
-        </form>
-      </div>
       <div class="modal-footer">
-          <a href="{{ url_for('submit', section_number=section_number, subject=subject, course_number=course_number, ext=ext)}}" class="btn btn-primary" id="submit-btn">Submit</a>
+          <input type="submit"  class="btn btn-primary" id="submit-btn" value="Submit">
           <a href="{{ url_for('search_page', subject=subject, number=number, ext=ext)}}" class="btn btn-secondary">Close</a>
+      </div>
+        </form>
       </div>
     </div>
   </div>
