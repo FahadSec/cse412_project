@@ -72,7 +72,7 @@ def search(subject=None, number=None, ext=None, term=None, session=None, min_cre
     query += ' TRUE;'
     results = db.session.execute(query,
         {
-        "subject" : subject,
+        "subject" : subject.upper(),
         "number" : number,
         "ext" : ext,
         "term": term,
