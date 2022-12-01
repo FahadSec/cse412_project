@@ -10,7 +10,9 @@
       <div class="modal-body">
         <form action="{{ url_for('submit', section_number=section_number, subject=subject, course_number=course_number, ext=ext)}}" method="post">
           <div class="form-group">
-            <label for="discord-link" class="col-form-label">BOT MODAL</label>
+              <label for="discord-link" class="col-form-label">Add the bot to the server, then run the command: "setup {{server_id}}".</label>
+              <br>
+              <a href="https://discord.com/channels/1014739682598322216/1014739683252654144/1047721764798615552">Click Here To Add the Bot.</a>
           </div>
       <div class="modal-footer">
           <a href="{{ url_for('search_page', subject=subject, number=course_number, ext=ext)}}" class="btn btn-secondary">Close</a>

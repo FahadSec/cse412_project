@@ -98,8 +98,9 @@ def bot():
     subject = request.args.get('subject', None)
     course_number  = request.args.get('course_number', None)
     section_number = request.args.get('section_number', None)
+    server_id= request.args.get('server_id', None)
     ext = request.args.get('ext', None)
-    return render_template("bot.html", subject=subject, course_number=course_number, section_number=section_number, ext=ext)
+    return render_template("bot.html", subject=subject, course_number=course_number, section_number=section_number, ext=ext, server_id=server_id)
 
 @app.route("/submit", methods=["GET", "POST"])
 def submit():
@@ -125,7 +126,7 @@ def submit():
         results = search(subject, course_number, ext)
         #return render_template("index.html", rows=results, subject=subject, number=course_number, ext=ext)
         #return render_template("index.html", rows=results, subject=subject, number=course_number, ext=ext)
-        return render_template("bot.html", subject=subject, course_number=course_number, section_number=section_number, ext=ext)
+        return render_template("bot.html", subject=subject, course_number=course_number, section_number=section_number, ext=ext, server_id=new_server.server_id)
     print("not in post!!!!!!!")
     return None
 
