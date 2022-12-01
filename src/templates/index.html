@@ -43,7 +43,7 @@
 			{%if row[6] %}
 			<td><a href="https://www.discord.gg/{{row[6]}}"> Discord Server </a></td>
 			{%else%}
-			<td></td>
+            <td><a href="{{ url_for('submit', section_number=row[3], link='AAAAA', subject=row[0], course_number=row[1], ext=row[2])}}">Add Server</a></td>
 			{%endif%}
 		</tr>
         {% endfor %}

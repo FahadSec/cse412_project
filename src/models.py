@@ -7,9 +7,8 @@ class Server(db.Model):
     link = db.Column(db.String(150), nullable=False)
     member_count = db.Column(db.Integer)
 
-    def __init__(self, link, member_count):
+    def __init__(self, link):
         self.link = link
-        self.member_count = member_count
 
 
 class Course(db.Model):
@@ -50,8 +49,8 @@ class Section(db.Model):
 
 class DiscordFor(db.Model):
     __tablename__ = "discord_for"
-    server_id = db.Column(db.Integer, db.ForeignKey("Server.server_id"), primary_key=True)
-    section_number = db.Column(db.Integer, db.ForeignKey("Section.section_number"), primary_key=True)
+    server_id = db.Column(db.Integer, db.ForeignKey(Server.server_id), primary_key=True)
+    section_number = db.Column(db.Integer, db.ForeignKey(Section.section_number), primary_key=True)
 
     def __init__(self, server_id, section_number):
         self.server_id = server_id

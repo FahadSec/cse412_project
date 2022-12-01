@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask, render_template, url_for, request#, url_for
+from flask import Flask, render_template, url_for, request, flash
 import models
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///cse412_dev"
+app.config['SECRET_KEY'] = 'secret_lol'
 db = SQLAlchemy(app)
 
 def insert_server(section_number, server_link):
     r0 = db.session.execute("""
     SELECT link FROM Server WHERE link=:link;
     """, {"link":server_link})
+    print("R0", r0)
+    print("is none?", (r0 is None))
     if r0 is None:
         r1 = db.session.execute("""
         INSERT INTO Server (link) VALUES (:link) ;
@@ -59,9 +62,31 @@ def search(subject, number, ext):
     return results
 
 
+@app.route("/submit")
+def submit():
+    section_number = request.args.get('section_number', None)
+    link = request.args.get('link', None)
+    subject = request.args.get('subject', None)
+    course_number  = request.args.get('course_number', None)
+    ext = request.args.get('ext', None)
+
+    new_server = models.Server(link)
+    db.session.add(new_server)
+    db.session.commit()
+
+    server_for = models.DiscordFor(new_server.server_id, section_number) 
+    db.session.add(server_for)
+    db.session.commit()
+
+    results = search(subject, course_number, ext)
+    return render_template("index.html", rows=results, subject=subject, number=course_number, ext=ext)
+
 @app.route("/")
 def index() -> str:
-    r1 = insert_server(78141, "testlink")
+
+
+    #print("Hello World")
+    #r1 = insert_server(78141, "testlink")
     # results = search("CSE", 355, "")
     return render_template('index.html')
 
@@ -83,28 +108,6 @@ def search_page():
         if ext is None: ext = ''
         return render_template("index.html", rows=results, subject=subject, number=number, ext=ext)
     return render_template("index.html", rows=())
-
-"""
-    for r in results:
-        print(r)
-
-    results = db.session.execute("""SELECT * FROM Server;""")
-    for r in results:
-        print(r)
-
-
-
-    return render_template('index.html')
-
-
-    #x = models.Server.query.all()
-    x = db.session.execute(db.select(models.Server)).scalars()
-
-    print(results[0])
-
-    for r in x:
-        print(r)
-"""
 
 
 def main() -> None:
