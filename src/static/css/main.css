@@ -7,8 +7,15 @@ table, th, td{
     border-collapse: collapse;
     border-color: black;
     border: 2px solid;
+	margin-left: 4px;
+	margin-top: 4px;
   }
-
+.table_element{
+	padding-left: 4px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-right: 10px;
+}
 /* body{
 	text-align: center;
 	background-image: url("../asubackground.jpg");

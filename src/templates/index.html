@@ -30,28 +30,28 @@
 
 	<table>
 		<tr>
-			<th>Course Subject</th>
-			<th>Course Number</th>
-			<th>Section Number</th>
-			<th>Course Name</th>
-			<th>Professor Name</th>
-			<th>Server Link</th>
+			<th class="table_element">Course Subject</th>
+			<th class="table_element">Course Number</th>
+			<th class="table_element">Section Number</th>
+			<th class="table_element">Course Name</th>
+			<th class="table_element">Professor Name</th>
+			<th class="table_element">Server Link</th>
 		</tr>
         {% for row in rows %}
 		<tr>
-			<td>{{row[0]}}</td>
+			<td class="table_element">{{row[0]}}</td>
 			{%if row[2] %}
-			<td>{{row[1]}}{{row[2]}}</td>
+			<td class="table_element">{{row[1]}}{{row[2]}}</td>
 			{%else%}
-			<td>{{row[1]}}</td>
+			<td class="table_element">{{row[1]}}</td>
 			{%endif%}
-			<td>{{row[3]}}</td>
-			<td>{{row[4]}}</td>
-			<td>{{row[5]}}</td>
+			<td class="table_element">{{row[3]}}</td>
+			<td class="table_element">{{row[4]}}</td>
+			<td class="table_element">{{row[5]}}</td>
 			{%if row[6] %}
-			<td><a href="https://www.discord.gg/{{row[6]}}"> Discord Server </a></td>
+			<td class="table_element"><a href="https://www.discord.gg/{{row[6]}}"> Discord Server </a></td>
 			{%else%}
-            <td>
+            <td class="table_element">
                 <a href="{{url_for('modal', subject=row[0], number=row[1], ext=row[2])}}"class="btn btn-outline-success">Pop Up Modal</a>
                 <a href="{{ url_for('submit', section_number=row[3], link='AAAAA', subject=row[0], course_number=row[1], ext=row[2])}}">Add Server</a></td>
 			{%endif%}
