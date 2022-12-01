@@ -72,6 +72,7 @@ def modal():
 
 @app.route("/submit", methods=["GET", "POST"])
 def submit():
+    print("INSIDE SUBMIT")
     if request.method == "POST":
         print("inside post!!!!!!!")
         section_number = request.args.get('section_number', None)
