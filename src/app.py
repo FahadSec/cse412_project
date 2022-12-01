@@ -64,9 +64,10 @@ def search(subject, number, ext):
 @app.route("/modal")
 def modal():
     subject = request.args.get('subject', None)
-    number  = request.args.get('number', None)
+    course_number  = request.args.get('course_number', None)
+    section_number = request.args.get('section_number', None)
     ext = request.args.get('ext', None)
-    return render_template("modal.html", subject=subject, number=number, ext=ext)
+    return render_template("modal.html", subject=subject, course_number=course_number, section_number=section_number, ext=ext)
 
 @app.route("/submit")
 def submit():
