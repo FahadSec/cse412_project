@@ -32,6 +32,7 @@ def insert_server(section_number, server_link):
     db.session.commit()
     return results
 
+
 def search(subject, number, ext):
     query = """
     SELECT Course.subject, Course.course_number, Course.number_ext, Section.section_number, Course.title, Professor.name, Server.link
@@ -69,25 +70,30 @@ def modal():
     ext = request.args.get('ext', None)
     return render_template("modal.html", subject=subject, course_number=course_number, section_number=section_number, ext=ext)
 
-@app.route("/submit")
+@app.route("/submit", methods=["GET", "POST"])
 def submit():
-    section_number = request.args.get('section_number', None)
-    subject = request.args.get('subject', None)
-    course_number  = request.args.get('course_number', None)
-    ext = request.args.get('ext', None)
+    if request.method == "POST":
+        print("inside post!!!!!!!")
+        section_number = request.args.get('section_number', None)
+        subject = request.args.get('subject', None)
+        course_number  = request.args.get('course_number', None)
+        ext = request.args.get('ext', None)
 
-    link = request.form.get('discord-link', None)
+        link = request.form.get('link')
+        print("link----->", link)
 
-    new_server = models.Server(link)
-    db.session.add(new_server)
-    db.session.commit()
+        new_server = models.Server(link)
+        db.session.add(new_server)
+        db.session.commit()
 
-    server_for = models.DiscordFor(new_server.server_id, section_number) 
-    db.session.add(server_for)
-    db.session.commit()
+        server_for = models.DiscordFor(new_server.server_id, section_number) 
+        db.session.add(server_for)
+        db.session.commit()
 
-    results = search(subject, course_number, ext)
-    return render_template("index.html", rows=results, subject=subject, number=course_number, ext=ext)
+        results = search(subject, course_number, ext)
+        return render_template("index.html", rows=results, subject=subject, number=course_number, ext=ext)
+    print("not in post!!!!!!!")
+    return None
 
 """
 @app.route("/")
