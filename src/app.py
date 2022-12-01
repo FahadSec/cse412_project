@@ -33,7 +33,7 @@ def insert_server(section_number, server_link):
     return results
 
 
-def search(subject, number, ext):
+def search(subject=None, number=None, ext=None, term=None, session=None, min_credits=None, max_credits=None, professor_name=None, seats=None):
     query = """
     SELECT Course.subject, Course.course_number, Course.number_ext, Section.section_number, Course.title, Professor.name, Server.link
         FROM Section
@@ -53,12 +53,35 @@ def search(subject, number, ext):
         query += ' Course.course_number = :number AND'
     if ext:
         query += ' Course.number_ext = :ext AND'
+    if term:
+        query += ' Section.semester = :term AND'
+    if session:
+        query += ' Section.session = :session AND'
+    if min_credits:
+        query += ' Course.credits >= :min_credits AND'
+    if max_credits:
+        query += ' Course.credits <= :max_credits AND'
+    #Course.General_Studies
+    #keywords for Course.description, Course.title
+    if professor_name:
+        query += ' Professor.name = :prof_name AND'
+    if seats:
+        query += ' Section.open_seats >= :seats AND'
+
+
     query += ' TRUE;'
     results = db.session.execute(query,
         {
         "subject" : subject,
         "number" : number,
-        "ext" : ext
+        "ext" : ext,
+        "term": term,
+        "session":session,
+        "min_credits":min_credits,
+        "max_credits":max_credits,
+        "prof_name": professor_name,
+        "seats": seats,
+
         })
     return results
 
